@@ -2,6 +2,7 @@
 [Coding game website](https://www.codingame.com/)
 
 [My profile](https://www.codingame.com/profile/3db8070d12309aaa6b75f4a64c8c16e8805248)
+You can find the problems I am solving here by clicking the following links. 
 
 ## Training
 
