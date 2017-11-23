@@ -20,6 +20,9 @@ Most of them are at least coded in python. There are small challenges created to
 - [Onboarding](https://www.codingame.com/ide/puzzle/onboarding)
 - [The Descent](https://www.codingame.com/ide/puzzle/the-descent)
 - [The Power of Thor Ep.1](https://www.codingame.com/ide/puzzle/power-of-thor-episode-1)
+- [Shadow of the knight](https://www.codingame.com/ide/puzzle/shadows-of-the-knight-episode-1)
+- [Skynet Revolution](https://www.codingame.com/ide/puzzle/skynet-revolution-episode-1)
+- [There is no spoon](https://www.codingame.com/ide/puzzle/there-is-no-spoon-episode-1)
 
 ## Challenges
 
