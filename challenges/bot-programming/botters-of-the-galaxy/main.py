@@ -212,38 +212,18 @@ while True:
         #printer.hero(solver.choose_hero())
         printer.hero('IRONMAN')
     else: # regular turn
-        #if len(game.me.heroes) > 0:
-        #    if len(game.ennemy.heroes) > 0:
-        #        # printer.attack_move(game.ennemy.heroes[0].x, game.ennemy.heroes[0].y, game.ennemy.heroes[0].id)
-        #        printer.attack_nearest('HERO ')
-        #    else: 
-        #        printer.attack_nearest('UNIT ')
-        #else:
-        #    printer.wait()
         if len(game.me.heroes) > 0:
-            bounds = game.me.get_bounds('UNIT')
+            target = game.ennemy.get_extreme_entity('UP')
             
-            can_attack_unit = False
-            for e in game.ennemy.entities:
-                if e.type == 'UNIT' and e.distance(game.me.heroes[0]) < game.me.heroes[0].attackRange:
-                    can_attack_unit = True
-                    break
-                
             can_attack_hero = False
             for e in game.ennemy.entities:
                 if e.type == 'HERO' and e.distance(game.me.heroes[0]) < game.me.heroes[0].attackRange:
                     can_attack_hero = True
                     break
-            
+                
             if can_attack_hero:
                 printer.attack_nearest('HERO')
-            elif can_attack_unit:
-                printer.attack_nearest('UNIT')
             else:
-                target = game.ennemy.get_extreme_entity('DOWN')
-                if len(bounds) > 0: 
-                    printer.move(target.x - game.me.heroes[0].attackRange + 20, target.y)
-                else:
-                    printer.wait()
+                printer.attack_move(target.x - game.me.heroes[0].attackRange + 30, target.y, target.id)
         else:
             printer.wait()
