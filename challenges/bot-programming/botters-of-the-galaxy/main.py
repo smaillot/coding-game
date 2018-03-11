@@ -75,6 +75,36 @@ class Player(object):
                 return []
         else:
             return []
+            
+    def get_extreme_entity(self, bound, unit_type = 'ALL'):
+        if len(self.entities) > 0:
+            if unit_type.upper() != 'ALL':
+                entities = [e for e in self.entities if e.type.upper() == unit_type.upper()]
+            else:
+                entities = [e for e in self.entities]
+                
+            if bound.upper() == 'LEFT':
+                min_x = min([e.x for e in entities])
+                for e in entities:
+                    if e.x == min_x:
+                        return e
+            elif bound.upper() == 'RIGHT':
+                max_x = max([e.x for e in entities])
+                for e in entities:
+                    if e.x == max_x:
+                        return e
+            elif bound.upper() == 'UP':
+                if self.id == 0:
+                    return self.get_extreme_entity('RIGHT', unit_type)
+                else:
+                    return self.get_extreme_entity('LEFT', unit_type)
+            elif bound.upper() == 'DOWN':
+                if self.id == 0:
+                    return self.get_extreme_entity('LEFT', unit_type)
+                else:
+                    return self.get_extreme_entity('RIGHT', unit_type)
+        else:
+            return []
         
 class Map(object):
     def __init__(self):
@@ -179,7 +209,8 @@ while True:
     round_type = game.read_turn() # if the turn is frozen, choose a hero
     game.read_entities()
     if round_type == 0:
-        printer.hero(solver.choose_hero())
+        #printer.hero(solver.choose_hero())
+        printer.hero('IRONMAN')
     else: # regular turn
         #if len(game.me.heroes) > 0:
         #    if len(game.ennemy.heroes) > 0:
@@ -192,17 +223,26 @@ while True:
         if len(game.me.heroes) > 0:
             bounds = game.me.get_bounds('UNIT')
             
-            can_attack = False
+            can_attack_unit = False
             for e in game.ennemy.entities:
-                if e.distance(game.me.heroes[0]) < game.me.heroes[0].attackRange:
-                    can_attack = True
+                if e.type == 'UNIT' and e.distance(game.me.heroes[0]) < game.me.heroes[0].attackRange:
+                    can_attack_unit = True
+                    break
+                
+            can_attack_hero = False
+            for e in game.ennemy.entities:
+                if e.type == 'HERO' and e.distance(game.me.heroes[0]) < game.me.heroes[0].attackRange:
+                    can_attack_hero = True
                     break
             
-            if len(game.me.heroes) > 0 and can_attack:
+            if can_attack_hero:
+                printer.attack_nearest('HERO')
+            elif can_attack_unit:
                 printer.attack_nearest('UNIT')
             else:
+                target = game.ennemy.get_extreme_entity('DOWN')
                 if len(bounds) > 0: 
-                    printer.move(bounds[1 - game.my_team], game.me.heroes[0].y)
+                    printer.move(target.x - game.me.heroes[0].attackRange + 20, target.y)
                 else:
                     printer.wait()
         else:
